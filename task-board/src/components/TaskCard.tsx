@@ -10,11 +10,17 @@ type TaskCardProps = {
 const TaskCard = (props: TaskCardProps) => {
   return (
     <article className="task-card">
-      <p>{props.title}</p>
-      <p>{props.category}</p>
+      <h3>{props.title}</h3>
       <p>{props.description}</p>
-      <p>Anvarig: {props.assignee}</p>
-      <p>Prioritet: {props.priority}</p>
+      <p>
+        <b>Kategori:</b> {props.category}
+      </p>
+      <p>
+        <b>Anvarig:</b> {props.assignee}
+      </p>
+      <p>
+        <b>Prioritet:</b> {props.priority}
+      </p>
     </article>
   );
 };
