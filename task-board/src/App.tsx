@@ -10,11 +10,31 @@ const App = () => {
     <div>
       <Header></Header>
       <main>
-        <h1>Uppgifter</h1>
         <section className="card-section">
-          <TaskCard></TaskCard>
-          <TaskCard></TaskCard>
-          <TaskCard></TaskCard>
+          <TaskCard
+            id={1}
+            title="Skapa dashboard"
+            category="Design"
+            description="Skapa ett dashboard i react/tsx."
+            assignee="Jonatan"
+            priority="Medel"
+          ></TaskCard>
+          <TaskCard
+            id={2}
+            title="Bygga formulär"
+            category="Backend"
+            description="Bygg ett HTML-formulär för en statisk HTML-sida"
+            assignee="Amanda"
+            priority="Låg"
+          ></TaskCard>
+          <TaskCard
+            id={3}
+            title="Skriva tester"
+            category="Tester"
+            description="Skriv tester till en Java-applikation"
+            assignee="Elias"
+            priority="Hög"
+          ></TaskCard>
         </section>
       </main>
       <Footer></Footer>

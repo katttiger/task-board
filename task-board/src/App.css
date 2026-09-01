@@ -8,6 +8,7 @@ main {
 main h1 h2 h3 {
   color: black;
 }
+
 .task-card {
   border: solid red 5px;
   border-radius: 20%;
