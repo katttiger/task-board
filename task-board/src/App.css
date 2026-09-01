@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+main {
+  background-color: lime;
+}
+main h1 h2 h3 {
+  color: black;
+}
+.task-card {
+  border: solid red 5px;
+  border-radius: 20%;
+  background-color: lightgoldenrodyellow;
+  margin: 10px 20px;
+  padding: 20px;
+}
+
+.task-card p {
+  color: black;
+}
+
+.card-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+footer p {
+  margin-left: 20px;
+  color: white;
+}
+
+header {
+  background-color: green;
+  padding: 20px;
+  color: white;
+}
+
+header p {
+  padding: 0;
+  margin: 0;
+}
+
+header h3 h2 {
+  margin: 0;
+  padding: 0;
+}
