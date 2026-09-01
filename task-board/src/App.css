@@ -3,14 +3,26 @@
 }
 
 main {
-  background-color: lime;
+  margin: 20px 10px;
   display: flex;
   align-items: center;
   justify-self: center;
   flex-wrap: wrap;
 }
+
 main h1 h2 h3 {
   color: black;
+}
+
+.task-column {
+  border: solid gray 2px;
+  margin: 0 10px;
+  background-color: lightgray;
+}
+
+.task-column h2 {
+  color: black;
+  text-decoration: underline;
 }
 
 .task-card {
