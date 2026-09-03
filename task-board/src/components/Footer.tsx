@@ -1,8 +1,7 @@
 const Footer = () => {
   return (
-    <footer>
-      <p>Copyright</p>
-      <p>Kontakta oss</p>
+    <footer className="bg-slate-500 text-white py-10 flex flex-col items-center text-center">
+      <p className="text-lg uppercase">Copyright · Kontakta oss</p>
     </footer>
   );
 };

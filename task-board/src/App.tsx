@@ -98,7 +98,7 @@ const App = () => {
     <div>
       <Header></Header>
       <main>
-        <div className="card-section">
+        <div className="flex flex-col md:flex-row justify-center gap-6 p-6 bg-slate-50 min-h-screen">
           <Column title="Todo">
             {todolist.map((item) => (
               <TaskCard
@@ -106,7 +106,7 @@ const App = () => {
                 id={item.id}
                 title={item.title}
                 category={item.category}
-                description={item.category}
+                description={item.description}
                 assignee={item.assignee}
                 priority={item.priority}
                 status={item.status}
@@ -121,7 +121,7 @@ const App = () => {
                 id={item.id}
                 title={item.title}
                 category={item.category}
-                description={item.category}
+                description={item.description}
                 assignee={item.assignee}
                 priority={item.priority}
                 status={item.status}
@@ -136,7 +136,7 @@ const App = () => {
                 id={item.id}
                 title={item.title}
                 category={item.category}
-                description={item.category}
+                description={item.description}
                 assignee={item.assignee}
                 priority={item.priority}
                 status={item.status}
