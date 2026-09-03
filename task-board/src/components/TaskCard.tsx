@@ -1,3 +1,5 @@
+import type { TaskStatus } from "../types/TaskStatus";
+
 type TaskCardProps = {
   id: number;
   title: string;
@@ -5,6 +7,7 @@ type TaskCardProps = {
   assignee: string;
   category: string;
   priority: string;
+  status: TaskStatus;
 };
 
 const TaskCard = (props: TaskCardProps) => {
@@ -20,6 +23,9 @@ const TaskCard = (props: TaskCardProps) => {
       </p>
       <p>
         <b>Prioritet:</b> {props.priority}
+      </p>
+      <p>
+        <b>Status:</b> {props.status}
       </p>
     </article>
   );
