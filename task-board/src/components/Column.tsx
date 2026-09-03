@@ -7,11 +7,11 @@ type ColumnProps = {
 
 const Column = (props: ColumnProps) => {
   return (
-    <section className="bg-amber-100 m-5 border-4 p-4 border-slate-500">
-      <h2 className="uppercase text-lg text-weght-500 text-blue-500">
+    <section className="bg-slate-100 rounded-lg p-4 w-full md:w-80 flex-shrink-0 border border-slate-200">
+      <h2 className="uppercase text-sm font-bold text-slate-600 mb-4 tracking-wide">
         {props.title}
       </h2>
-      {props.children}
+      <div className="flex flex-col gap-3">{props.children}</div>
     </section>
   );
 };
