@@ -25,7 +25,7 @@ const categoryColors = {
 
 const TaskCard = (props: TaskCardProps) => {
   return (
-    <article className="bg-white border-3 h-55 border-slate-400 rounded-xl p-5 mb-5">
+    <article className="bg-white border-3 h-55 border-slate-400 rounded-xl p-5 mb-3">
       <div className="flex justify-between items-start mb-2">
         <h3 className="uppercase text-s font-medium leading-tight">
           {props.title}
@@ -38,9 +38,9 @@ const TaskCard = (props: TaskCardProps) => {
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-2 items-center justify-between mt-auto ">
+      <div className="flex flex-wrap gap-2 items-center justify-between mt-auto">
         <span
-          className={`text-xs font-medium px-2 py-1 mb-1 rounded ${categoryColors[props.category as keyof typeof categoryColors] || "bg-slate-100 text-slate-600"}`}
+          className={`text-s font-medium px-2 py-1 mb-3 rounded ${categoryColors[props.category as keyof typeof categoryColors] || "bg-slate-100 text-slate-600"}`}
         >
           {props.category}
         </span>
