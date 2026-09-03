@@ -1,4 +1,3 @@
-//Describe för att grupera testerna
 import { describe, it, expect } from "vitest";
 import Header from "../components/Header";
 import { screen, render } from "@testing-library/react";
