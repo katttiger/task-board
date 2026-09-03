@@ -1,9 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { it, expect } from "vitest";
 import { screen, render } from "@testing-library/react";
 import TaskCard from "../components/TaskCard";
-
-// Rendera med egna props
-// Kortet ska visa id, kategori, tiel, beskrivning, ansvarig person och prioritet
 
 it("Taskcard displays properties", () => {
   render(
