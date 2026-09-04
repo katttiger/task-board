@@ -1,3 +1,4 @@
+import type { Priority } from "./Priority";
 import type { TaskStatus } from "./TaskStatus";
 
 export type Task = {
@@ -6,6 +7,6 @@ export type Task = {
   description: string;
   assignee: string;
   category: string;
-  priority: string;
+  priority: Priority;
   status: TaskStatus;
 };
