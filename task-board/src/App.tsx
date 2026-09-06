@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import TaskCard from "./components/TaskCard";
 import Column from "./components/Column";
+import NewTaskForm from "./components/NewTaskForm";
 
 const tasks: Task[] = [
   {
@@ -98,6 +99,7 @@ const App = () => {
     <div>
       <Header></Header>
       <main>
+        <NewTaskForm></NewTaskForm>
         <div className="flex flex-col md:flex-row justify-center gap-6 p-6 bg-slate-50 min-h-screen">
           <Column title="Todo">
             {todolist.map((item) => (

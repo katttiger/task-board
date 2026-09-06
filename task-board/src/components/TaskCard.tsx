@@ -1,4 +1,5 @@
 import type { TaskStatus } from "../types/TaskStatus";
+import type { Priority } from "../types/Priority";
 
 type TaskCardProps = {
   id: number;
@@ -6,7 +7,7 @@ type TaskCardProps = {
   description: string;
   assignee: string;
   category: string;
-  priority: string;
+  priority: Priority;
   status: TaskStatus;
 };
 
