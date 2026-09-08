@@ -7,94 +7,12 @@ import Column from "./components/Column";
 import NewTaskForm from "./components/NewTaskForm";
 import type { NewTask } from "./types/NewTask";
 import { useState } from "react";
-
-const tasksList: Task[] = [
-  {
-    id: 1,
-    title: "Skapa dashboard",
-    category: "Design",
-    description: "Skapa ett dashboard i react/tsx.",
-    assignee: "Jonatan",
-    priority: "Medel",
-    status: "done",
-  },
-  {
-    id: 2,
-    title: "Bygga formulär",
-    category: "Backend",
-    description: "Bygg ett HTML-formulär för en statisk HTML-sida",
-    assignee: "Amanda",
-    priority: "Låg",
-    status: "todo",
-  },
-  {
-    id: 3,
-    title: "Skriva tester",
-    category: "Tester",
-    description: "Skriv tester till en Java-applikation",
-    assignee: "Elias",
-    priority: "Hög",
-    status: "doing",
-  },
-  {
-    id: 4,
-    title: "Implementera API",
-    category: "Backend",
-    description: "Skapa endpoints för användarhantering i Node.js",
-    assignee: "Oskar",
-    priority: "Hög",
-    status: "doing",
-  },
-  {
-    id: 5,
-    title: "Optimera databas",
-    category: "Backend",
-    description: "Indexera tabeller för att förbättra laddningstider",
-    assignee: "Martin",
-    priority: "Medel",
-    status: "todo",
-  },
-  {
-    id: 6,
-    title: "Designa mobilvy",
-    category: "Design",
-    description: "Anpassa dashboarden för responsiv mobilvy",
-    assignee: "Kasper",
-    priority: "Låg",
-    status: "todo",
-  },
-  {
-    id: 7,
-    title: "Sätta upp CI/CD",
-    category: "DevOps",
-    description: "Konfigurera GitHub Actions för automatisk deployment",
-    assignee: "Gustav",
-    priority: "Hög",
-    status: "done",
-  },
-  {
-    id: 8,
-    title: "Fixa buggar i UI",
-    category: "Design",
-    description: "Åtgärda layoutfel i navigeringsmenyn",
-    assignee: "Eva",
-    priority: "Medel",
-    status: "done",
-  },
-  {
-    id: 9,
-    title: "Dokumentera kod",
-    category: "Tester",
-    description: "Skriva teknisk dokumentation för API-integrationen",
-    assignee: "Isak",
-    priority: "Låg",
-    status: "doing",
-  },
-];
+import SearchBar from "./components/SearchBar";
+import { TaskList } from "./data/tasks";
 
 const App = () => {
   const [taskId, setTaskId] = useState(10);
-  const [tasks, setTasks] = useState<Task[]>(tasksList);
+  const [tasks, setTasks] = useState<Task[]>(TaskList);
 
   const addTask = (newTask: NewTask) => {
     const task: Task = {
@@ -104,14 +22,44 @@ const App = () => {
     setTaskId(taskId + 1);
     setTasks([...tasks, task]);
   };
-  const todolist = tasks.filter((task) => task.status === "todo");
-  const doinglist = tasks.filter((task) => task.status === "doing");
-  const donelist = tasks.filter((task) => task.status === "done");
+
+  const [filters, setFilters] = useState({
+    query: "",
+    category: "all",
+    assignee: "all",
+    priority: "all",
+  });
+
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((previousFilter) => ({ ...previousFilter, [key]: value }));
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    const matchesQuery =
+      task.title.toLowerCase().includes(filters.query.toLowerCase()) ||
+      task.description.toLowerCase().includes(filters.query.toLowerCase());
+    const matchesCat =
+      filters.category === "all" || task.category === filters.category;
+    const matchesPri =
+      filters.priority === "all" || task.priority === filters.priority;
+    const matchesAss =
+      filters.assignee === "all" || task.assignee === filters.assignee;
+
+    return matchesQuery && matchesCat && matchesPri && matchesAss;
+  });
+
+  const todolist = filteredTasks.filter((task) => task.status === "todo");
+  const doinglist = filteredTasks.filter((task) => task.status === "doing");
+  const donelist = filteredTasks.filter((task) => task.status === "done");
 
   return (
     <div>
       <Header></Header>
       <main>
+        <SearchBar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+        ></SearchBar>
         <div className="flex flex-col md:flex-row justify-center gap-6 p-6 bg-slate-50 min-h-screen">
           <Column title="Todo">
             {todolist.map((item) => (
