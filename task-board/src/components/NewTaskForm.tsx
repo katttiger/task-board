@@ -8,24 +8,22 @@ type TaskFormProps = {
   onAddTask: (task: NewTask) => void;
 };
 
-
 const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [newpriority, setPriority] = useState("");
+  const [newpriority, setPriority] = useState<Priority>("Låg");
   const [assignee, setAssignee] = useState(assignees[0].value);
   const [category, setCategory] = useState(categories[0].value);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let thisPriority: Priority = "Låg";
 
     onAddTask({
       title,
       description,
       assignee,
       category,
-      priority: thisPriority,
+      priority: newpriority,
       status: "todo",
     });
   };
@@ -59,11 +57,11 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
             id="priority"
             className="p-4 mt-2 focus:bg-orange-100 bg-white focus:bg-orange-200 border border-black-100 w-full"
             value={newpriority}
-            onChange={(event) => setPriority(event.target.value)}
+            onChange={(event) => setPriority(event.target.value as Priority)}
           >
-            <option>Låg</option>
-            <option>Medel</option>
-            <option>Hög</option>
+            <option value="Låg">Låg</option>
+            <option value="Medel">Medel</option>
+            <option value="Hög">Hög</option>
           </select>
         </div>
 
@@ -93,11 +91,11 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
             id="priority"
             className="p-4 focus:bg-orange-100 bg-white focus:bg-orange-200 border border-black-100"
             value={newpriority}
-            onChange={(event) => setPriority(event.target.value)}
+            onChange={(event) => setPriority(event.target.value as Priority)}
           >
-            <option>Låg</option>
-            <option>Medel</option>
-            <option>Hög</option>
+            <option value="Låg">Låg</option>
+            <option value="Medel">Medel</option>
+            <option value="Hög">Hög</option>
           </select>
 
           <label htmlFor="category" className="ml-2 bg-orange-100 p-4">
