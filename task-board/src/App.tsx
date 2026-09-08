@@ -5,8 +5,10 @@ import Header from "./components/Header";
 import TaskCard from "./components/TaskCard";
 import Column from "./components/Column";
 import NewTaskForm from "./components/NewTaskForm";
+import type { NewTask } from "./types/NewTask";
+import { useState } from "react";
 
-const tasks: Task[] = [
+const tasksList: Task[] = [
   {
     id: 1,
     title: "Skapa dashboard",
@@ -90,16 +92,26 @@ const tasks: Task[] = [
   },
 ];
 
-const todolist = tasks.filter((task) => task.status === "todo");
-const doinglist = tasks.filter((task) => task.status === "doing");
-const donelist = tasks.filter((task) => task.status === "done");
-
 const App = () => {
+  const [taskId, setTaskId] = useState(10);
+  const [tasks, setTasks] = useState<Task[]>(tasksList);
+
+  const addTask = (newTask: NewTask) => {
+    const task: Task = {
+      id: taskId,
+      ...newTask,
+    };
+    setTaskId(taskId + 1);
+    setTasks([...tasks, task]);
+  };
+  const todolist = tasks.filter((task) => task.status === "todo");
+  const doinglist = tasks.filter((task) => task.status === "doing");
+  const donelist = tasks.filter((task) => task.status === "done");
+
   return (
     <div>
       <Header></Header>
       <main>
-        <NewTaskForm></NewTaskForm>
         <div className="flex flex-col md:flex-row justify-center gap-6 p-6 bg-slate-50 min-h-screen">
           <Column title="Todo">
             {todolist.map((item) => (
@@ -146,6 +158,7 @@ const App = () => {
             ))}
           </Column>
         </div>
+        <NewTaskForm onAddTask={addTask}></NewTaskForm>
       </main>
       <Footer></Footer>
     </div>

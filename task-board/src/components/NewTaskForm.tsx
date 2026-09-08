@@ -1,4 +1,6 @@
 import { useState } from "react";
+import type { NewTask } from "../types/NewTask";
+import type { Priority } from "../types/Priority";
 
 const assignees = [
   { key: 1, value: "Amanda" },
@@ -19,20 +21,29 @@ const categories = [
   { key: 4, value: "DevOps" },
 ];
 
-const NewTaskForm = () => {
+type TaskFormProps = {
+  onAddTask: (task: NewTask) => void;
+};
+
+const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Låg");
+  const [newpriority, setPriority] = useState("");
   const [assignee, setAssignee] = useState(assignees[0].value);
   const [category, setCategory] = useState(categories[0].value);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(title);
-    console.log(description);
-    console.log(priority);
-    console.log(assignee);
-    console.log(category);
+    let thisPriority: Priority = "Låg";
+
+    onAddTask({
+      title,
+      description,
+      assignee,
+      category,
+      priority: thisPriority,
+      status: "todo",
+    });
   };
 
   return (
@@ -63,7 +74,7 @@ const NewTaskForm = () => {
           <select
             id="priority"
             className="p-4 mt-2 focus:bg-orange-100 bg-white focus:bg-orange-200 border border-black-100 w-full"
-            value={priority}
+            value={newpriority}
             onChange={(event) => setPriority(event.target.value)}
           >
             <option>Låg</option>
@@ -97,7 +108,7 @@ const NewTaskForm = () => {
           <select
             id="priority"
             className="p-4 focus:bg-orange-100 bg-white focus:bg-orange-200 border border-black-100"
-            value={priority}
+            value={newpriority}
             onChange={(event) => setPriority(event.target.value)}
           >
             <option>Låg</option>
