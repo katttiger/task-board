@@ -8,6 +8,7 @@ type TaskFormProps = {
   onAddTask: (task: NewTask) => void;
 };
 
+
 const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

@@ -21,19 +21,45 @@ const App = () => {
     };
     setTaskId(taskId + 1);
     setTasks([...tasks, task]);
-    console.log(newTask);
-    console.log(tasks);
   };
 
-  const todolist = tasks.filter((task) => task.status === "todo");
-  const doinglist = tasks.filter((task) => task.status === "doing");
-  const donelist = tasks.filter((task) => task.status === "done");
+  const [filters, setFilters] = useState({
+    query: "",
+    category: "all",
+    assignee: "all",
+    priority: "all",
+  });
+
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((previousFilter) => ({ ...previousFilter, [key]: value }));
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    const matchesQuery =
+      task.title.toLowerCase().includes(filters.query.toLowerCase()) ||
+      task.description.toLowerCase().includes(filters.query.toLowerCase());
+    const matchesCat =
+      filters.category === "all" || task.category === filters.category;
+    const matchesPri =
+      filters.priority === "all" || task.priority === filters.priority;
+    const matchesAss =
+      filters.assignee === "all" || task.assignee === filters.assignee;
+
+    return matchesQuery && matchesCat && matchesPri && matchesAss;
+  });
+
+  const todolist = filteredTasks.filter((task) => task.status === "todo");
+  const doinglist = filteredTasks.filter((task) => task.status === "doing");
+  const donelist = filteredTasks.filter((task) => task.status === "done");
 
   return (
     <div>
       <Header></Header>
       <main>
-        {/* <SearchBar></SearchBar> */}
+        <SearchBar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+        ></SearchBar>
         <div className="flex flex-col md:flex-row justify-center gap-6 p-6 bg-slate-50 min-h-screen">
           <Column title="Todo">
             {todolist.map((item) => (

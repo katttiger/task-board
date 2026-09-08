@@ -1,68 +1,64 @@
-import { useState } from "react";
-import type { Task } from "../types/Task";
+import React, { useState, type ChangeEvent } from "react";
 import { categories } from "../data/categories";
+import { assignees } from "../data/assignees";
+import type { Priority } from "../types/Priority";
 
-const SearchBar = () => {
+type SearchBarProps = {
+  filters: {
+    query: string;
+    category: string;
+    assignee: string;
+    priority: string;
+  };
+  onFilterChange: (filter: string, filterValue: string) => void;
+};
+const SearchBar = ({ filters, onFilterChange }: SearchBarProps) => {
   return (
-    <div className="bg-yellow-100 p-3 flex">
-      <section>
-        <form>
-          <label htmlFor="title" className="bg-orange-100">
-            Uppgift
-          </label>
-          <input
-            type="text"
-            placeholder="Title"
-            className="border-black border-1 bg-white rounded"
-          ></input>
+    <div className="w-full flex flex-wrap justify-center gap-4 p-4 bg-orange-50">
+      <input
+        type="text"
+        placeholder="Sök efter uppgift..."
+        className="p-3 border-2 border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+        value={filters.query}
+        onChange={(e) => onFilterChange("query", e.target.value)}
+      />
 
-          <div className="p-3">
-            <label htmlFor="priority" className="bg-orange-100">
-              Prioritet
-            </label>
-            <select
-              id="priority"
-              className="border-black border-1 bg-white rounded"
-            >
-              <option>Låg</option>
-              <option>Medel</option>
-              <option>Hög</option>
-            </select>
-          </div>
+      <select
+        className="p-3 border-2 border-orange-300 rounded-lg bg-white"
+        value={filters.category}
+        onChange={(e) => onFilterChange("category", e.target.value)}
+      >
+        <option value="all">Alla Kategorier</option>
+        {categories.map((cat) => (
+          <option key={cat.key} value={cat.value}>
+            {cat.value}
+          </option>
+        ))}
+      </select>
 
-          <div className="p-3">
-            <label htmlFor="category" className="bg-orange-100">
-              Kategori
-            </label>
-            <select
-              id="category"
-              className="border-black border-1 bg-white rounded"
-            >
-              {categories.map((category) => (
-                <option key={category.key} value={category.value}>
-                  {category.value}
-                </option>
-              ))}
-            </select>
-          </div>
+      <select
+        className="p-3 border-2 border-orange-300 rounded-lg bg-white"
+        value={filters.priority}
+        onChange={(e) => onFilterChange("priority", e.target.value)}
+      >
+        <option value="all">Alla Prioriteter</option>
+        <option value="Låg">Låg</option>
+        <option value="Medel">Medel</option>
+        <option value="Hög">Hög</option>
+      </select>
 
-          <div className="p-3">
-            <label htmlFor="assignee" className="bg-orange-100">
-              Ansvarig
-            </label>
-            <select
-              id="assignee"
-              className="border-black border-1 bg-white rounded"
-            >
-              {assignees.map((person) => (
-                <option key={person.key} value={person.value}>
-                  {person.value}
-                </option>
-              ))}
-            </select>
-          </div>
-        </form>
-      </section>
+      <select
+        className="p-3 border-2 border-orange-300 rounded-lg bg-white"
+        value={filters.assignee}
+        onChange={(e) => onFilterChange("assignee", e.target.value)}
+      >
+        <option value="all">Alla Ansvariga</option>
+        {assignees.map((person) => (
+          <option key={person.key} value={person.value}>
+            {person.value}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
