@@ -12,16 +12,23 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [newpriority, setPriority] = useState<Priority>("Låg");
-  const [assignee, setAssignee] = useState(assignees[0].value);
+  const [assignee, setAssignee] = useState(assignees[0].key);
   const [category, setCategory] = useState(categories[0].value);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("Frontend sending data:", {
+      title,
+      description,
+      assigneeId: assignee,
+      category,
+      priority: newpriority,
+    });
 
     onAddTask({
       title,
       description,
-      assignee,
+      assigneeId: assignee,
       category,
       priority: newpriority,
       status: "todo",
@@ -136,11 +143,11 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
           <select
             id="assignee"
             value={assignee}
-            onChange={(event) => setAssignee(event.target.value)}
+            onChange={(event) => setAssignee(Number(event.target.value))}
             className="p-4 w-auto bg-white border-1 focus:bg-orange-200"
           >
             {assignees.map((person) => (
-              <option key={person.key} value={person.value}>
+              <option key={person.key} value={person.key}>
                 {person.value}
               </option>
             ))}
@@ -158,13 +165,3 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
 };
 
 export default NewTaskForm;
-
-// type TaskCardProps = {
-//   id: number;
-//   title: string;
-//   description: string;
-//   assignee: string;
-//   category: string;
-//   priority: string;
-//   status: TaskStatus;
-// };

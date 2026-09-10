@@ -6,21 +6,50 @@ import TaskCard from "./components/TaskCard";
 import Column from "./components/Column";
 import NewTaskForm from "./components/NewTaskForm";
 import type { NewTask } from "./types/NewTask";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
-import { TaskList } from "./data/tasks";
+
+const apiUrl = "http://localhost:3001/api/tasks";
 
 const App = () => {
-  const [taskId, setTaskId] = useState(10);
-  const [tasks, setTasks] = useState<Task[]>(TaskList);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  const addTask = (newTask: NewTask) => {
-    const task: Task = {
-      id: taskId,
-      ...newTask,
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error("Kunde inte hämta uppgifter.");
+      }
+      const result: Task[] = await response.json();
+      setTasks(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    const executeFetch = async () => {
+      fetchTasks();
     };
-    setTaskId(taskId + 1);
-    setTasks([...tasks, task]);
+    executeFetch();
+  }, []);
+
+  const addTask = async (newTask: NewTask) => {
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) {
+        throw new Error("Kunde inte skapa en ny uppgift.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    await fetchTasks();
   };
 
   const [filters, setFilters] = useState({

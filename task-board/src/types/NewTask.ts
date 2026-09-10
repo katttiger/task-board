@@ -4,7 +4,7 @@ import type { TaskStatus } from "./TaskStatus";
 export type NewTask = {
   title: string;
   description: string;
-  assignee: string;
+  assigneeId: number;
   category: string;
   priority: Priority;
   status: TaskStatus;
