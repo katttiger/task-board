@@ -93,6 +93,14 @@ const SearchBar = ({ filters, onFilterChange }: SearchBarProps) => {
           ))}
         </select>
       </div>
+
+      <form action="/new-task">
+        <input
+          type="submit"
+          className="ml-3 border-orange-300 bg-orange-100 hover:bg-orange-300 active:bg-orange-500 border-2 rounded px-4 py-2"
+          value="Ny uppgift"
+        />
+      </form>
     </div>
   );
 };

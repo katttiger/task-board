@@ -3,6 +3,7 @@ import type { NewTask } from "../types/NewTask";
 import type { Priority } from "../types/Priority";
 import { categories } from "../data/categories";
 import type { Assignee } from "../types/assignee";
+import { Navigate, redirect, useNavigate } from "react-router";
 
 type TaskFormProps = {
   onAddTask: (task: NewTask) => void;
@@ -16,8 +17,6 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [newpriority, setPriority] = useState<Priority>("Låg");
   const [assignee, setAssignee] = useState<number | "">("");
   const [category, setCategory] = useState(categories[0].value);
-
- 
 
   //import assignees for dropdown in form
   const [assignees, setAssignees] = useState<Assignee[]>([]);
@@ -57,7 +56,10 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
       status: "todo",
     });
   };
-
+  const navigate = useNavigate();
+  const goToTaskboard = () => {
+    navigate("/");
+  };
   return (
     <div className="w-auto flex justify-center m-6">
       <form
@@ -69,6 +71,7 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
             Uppgift
           </label>
           <input
+            required
             name="title"
             className="focus:bg-orange-200 my-2 border-2 border-orange-300 p-4 ml-0 bg-white w-full"
             value={title}
@@ -151,6 +154,7 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
           </label>
           <br></br>
           <textarea
+            required
             name="description"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
@@ -182,6 +186,7 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
           </select>
         </div>
         <button
+          onClick={goToTaskboard}
           className="ml-3 border-orange-300 bg-orange-100 hover:bg-orange-300 active:bg-orange-500 border-2 rounded px-4 py-2"
           type="submit"
         >
