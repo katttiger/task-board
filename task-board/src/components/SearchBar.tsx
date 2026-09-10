@@ -1,7 +1,7 @@
-import React, { useState, type ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { categories } from "../data/categories";
-import { assignees } from "../data/assignees";
 import type { Priority } from "../types/Priority";
+import type { Assignee } from "../types/assignee";
 
 type SearchBarProps = {
   filters: {
@@ -12,7 +12,27 @@ type SearchBarProps = {
   };
   onFilterChange: (filter: string, filterValue: string) => void;
 };
+
 const SearchBar = ({ filters, onFilterChange }: SearchBarProps) => {
+  const [assignees, setAssignees] = useState<Assignee[]>([]);
+
+  useEffect(() => {
+    const fetchAssigneesFromDatabase = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/tasks/assignees",
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setAssignees(data);
+        }
+      } catch (error) {
+        console.error("Error fetching assignees for search bar: ", error);
+      }
+    };
+    fetchAssigneesFromDatabase();
+  }, []);
+
   return (
     <div className="w-full flex flex-wrap justify-center gap-4 p-4 bg-orange-50">
       <input
