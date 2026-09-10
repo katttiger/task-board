@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NewTask } from "../types/NewTask";
 import type { Priority } from "../types/Priority";
-import { assignees } from "../data/assignees";
 import { categories } from "../data/categories";
+import type { Assignee } from "../types/assignee";
 
 type TaskFormProps = {
   onAddTask: (task: NewTask) => void;
@@ -12,23 +12,42 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [newpriority, setPriority] = useState<Priority>("Låg");
-  const [assignee, setAssignee] = useState(assignees[0].key);
+  const [assignee, setAssignee] = useState<number | "">("");
   const [category, setCategory] = useState(categories[0].value);
+
+  //import assignees for dropdown in form
+  const [assignees, setAssignees] = useState<Assignee[]>([]);
+
+  useEffect(() => {
+    const fetchAssigneesFromDatabase = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/tasks/assignees",
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch assignees");
+        }
+
+        const data: Assignee[] = await response.json();
+        setAssignees(data);
+
+        if (data.length > 0) {
+          setAssignee(data[0].key);
+        }
+      } catch (error) {
+        console.log("Error loading assignees: ", error);
+      }
+    };
+    fetchAssigneesFromDatabase();
+  }, []);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Frontend sending data:", {
-      title,
-      description,
-      assigneeId: assignee,
-      category,
-      priority: newpriority,
-    });
 
     onAddTask({
       title,
       description,
-      assigneeId: assignee,
+      assigneeId: assignee === "" ? 0 : assignee,
       category,
       priority: newpriority,
       status: "todo",
@@ -145,12 +164,17 @@ const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
             value={assignee}
             onChange={(event) => setAssignee(Number(event.target.value))}
             className="p-4 w-auto bg-white border-1 focus:bg-orange-200"
+            disabled={assignees.length === 0}
           >
-            {assignees.map((person) => (
-              <option key={person.key} value={person.key}>
-                {person.value}
-              </option>
-            ))}
+            {assignees.length === 0 ? (
+              <option>Laddar personal...</option>
+            ) : (
+              assignees.map((person) => (
+                <option key={person.key} value={person.key}>
+                  {person.value}
+                </option>
+              ))
+            )}
           </select>
         </div>
         <button
