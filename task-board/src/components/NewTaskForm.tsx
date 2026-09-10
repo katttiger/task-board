@@ -8,12 +8,16 @@ type TaskFormProps = {
   onAddTask: (task: NewTask) => void;
 };
 
+const apiUrl = "http://localhost:3001/api/tasks";
+
 const NewTaskForm = ({ onAddTask }: TaskFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [newpriority, setPriority] = useState<Priority>("Låg");
   const [assignee, setAssignee] = useState<number | "">("");
   const [category, setCategory] = useState(categories[0].value);
+
+ 
 
   //import assignees for dropdown in form
   const [assignees, setAssignees] = useState<Assignee[]>([]);
